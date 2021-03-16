@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.deletion import CASCADE
 
 
 TYPES = (
@@ -36,7 +35,7 @@ class Institution(models.Model):
 
 
     def __str__(self):
-        return f"{self.name} ({self.type})"
+        return f"{self.name} ({TYPES[self.type - 1][1]})"
 
 
 class Donation(models.Model):
@@ -64,7 +63,7 @@ class Donation(models.Model):
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
-    user = models.ForeignKey(User, default=None, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
 
     def __str__(self):
