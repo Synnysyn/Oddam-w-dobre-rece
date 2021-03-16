@@ -55,7 +55,7 @@ class Donation(models.Model):
     """
 
     quantity = models.IntegerField()
-    categories = models.ManyToManyField(Category, default=None, blank=True)
+    categories = models.ManyToManyField(Category, default=None)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     address = models.CharField(max_length=64)
     phone_number = models.IntegerField()
