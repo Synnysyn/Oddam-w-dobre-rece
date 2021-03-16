@@ -349,3 +349,10 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 charitydonation/charitydonation/local_settings.py
+
+#additional
+.idea
+.vscode
+node_modules
+package-lock.json
+project
