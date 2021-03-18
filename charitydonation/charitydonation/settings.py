@@ -124,3 +124,6 @@ import os
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'charitydonationapp')
 STATIC_URL = "/static/"
+
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
