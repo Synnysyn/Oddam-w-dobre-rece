@@ -14,10 +14,10 @@
             <ul class="nav--actions">
                 {% if user.is_authenticated %}
                 <li class="logged-user">
-                    Witaj {{ user.username }}
+                    Witaj {{ user.first_name }}
                     <ul class="dropdown">
-                        <li><a href="#">Profil</a></li>
-                        <li><a href="#">Ustawienia</a></li>
+                        <li><a href="{% url 'info' %}">Profil</a></li>
+                        <li><a href="{% url 'settings' %}">Ustawienia</a></li>
                         {% if user.is_superuser == True %}
                         <li><a href="{% url 'admin:index' %}">Panel Administracyjny</a></li>
                         {% endif %}

@@ -51,6 +51,7 @@ class Donation(models.Model):
     - pick_up_time
     - pick_up_comment
     - user (klucz obcy do tabeli user; domyślna tabela zakładana przez django; może być Nullem, domyślnie Null).
+    - is_taken (bool)
     """
 
     quantity = models.IntegerField()
@@ -64,6 +65,7 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    is_taken = models.BooleanField(default=False)
 
 
     def __str__(self):

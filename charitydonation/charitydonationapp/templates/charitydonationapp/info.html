@@ -1,0 +1,35 @@
+{% extends "charitydonationapp\base.html" %}
+{% block content %}
+{% load static %}
+
+
+<h2>Imię: {{ user.first_name }}</h2>
+<h2>Nazwisko: {{ user.last_name }}</h2>
+<h2>Email: {{ user.username }}</h2>
+<div class="help--slides active" data-id="1">
+    <ul class="help--slides-items">
+        {% for donation in donations%}
+        <li>
+            <div class="col">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="donation_id" value="{{ donation.pk }}">
+                        {% if donation.is_taken == True %}
+                            <button type="submit" class="btn--small" name="donation_not_taken"><p>Przywróć</p></button>
+                        {% else %}
+                            <button type="submit" class="btn" name="donation_taken"><p>Archiwizuj</p></button>
+                        {% endif %}
+                </form>
+            </div>
+            <div class="col">
+                <div class="title">Podarowałeś {{donation.quantity}} worków</div>
+                <div class="subtitle">
+                    {{donation.institution}}
+                </div>
+              </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
