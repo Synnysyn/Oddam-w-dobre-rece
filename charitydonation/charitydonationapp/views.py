@@ -34,10 +34,17 @@ class LandingPage(View):
 class AddDonation(LoginRequiredMixin, View):
     def get(self, request):
         categories = Category.objects.all()
+        institutions = Institution.objects.all()
         context = {
-            "categories": categories
+            "categories": categories,
+            "institutions": institutions,
         }
         return render(request, "charitydonationapp/form.html", context)
+    
+    def post(self, request):
+        quantity = request.POST["bags"]
+        categories = request.POST["category"]
+        raise Exception
 
 
 class Login(View):
