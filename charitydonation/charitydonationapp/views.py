@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.models import User
-from .models import Institution, Donation
+from .models import Institution, Donation, Category
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -31,9 +31,13 @@ class LandingPage(View):
         return render(request, "charitydonationapp/index.html", context)
 
 
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, "charitydonationapp/form.html")
+        categories = Category.objects.all()
+        context = {
+            "categories": categories
+        }
+        return render(request, "charitydonationapp/form.html", context)
 
 
 class Login(View):
