@@ -5,13 +5,29 @@ from .models import Institution, Donation, Category
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
 
+def paginating(page, queryset):
+    """
+    use it to prepare paginated page from queryset
+    """
+    paginator = Paginator(queryset, 1)
+    try:
+        ref_dict = paginator.page(page)
+    except PageNotAnInteger:
+        ref_dict = paginator.page(1)
+    except EmptyPage:
+        ref_dict = paginator.page(paginator.num_pages)
+
+    return ref_dict
+
+
 class LandingPage(View):
     def get(self, request):
-        institutions = Institution.objects.all()
+        institutions = Institution.objects.all().order_by("name")
         donations = Donation.objects.all()
 
         sack_count = 0
@@ -22,11 +38,14 @@ class LandingPage(View):
         
         for donation in donations:
             sack_count += donation.quantity
+        
+        page = request.GET.get("page", 1)
+        dict_institutions = paginating(page, institutions)
 
         context = {
             "organization_count": organization_count,
             "sack_count": sack_count,
-            "institutions": institutions,
+            "institutions": dict_institutions,
         }
         return render(request, "charitydonationapp/index.html", context)
 

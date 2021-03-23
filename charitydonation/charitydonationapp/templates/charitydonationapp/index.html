@@ -100,13 +100,31 @@
     {% endif %}
     {% endfor %}
   </ul>
-  <!-- Pagination
-  <ul class="help--slides-pagination">
+  <!-- Pagination -->
+  <!-- <ul class="help--slides-pagination">
     <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-    <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-    <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-  </ul>
-  -->
+  </ul> -->
+  <!--Pagination-->
+  <!-- <div class="help--slides-pagination">
+    <div class="pagination justify-content-center">
+        <span class="step-links">
+          {% if institutions.has_previous %}
+              <a class="btn btn--small btn--without-border active" href="?page=1">&laquo; first</a>
+              <a class="btn btn--small btn--without-border active" href="?page={{ institutions.previous_page_number }}">previous</a>
+          {% endif %}
+
+            <span class="current">
+                Page {{ institutions.number }} of {{ institutions.paginator.num_pages }}
+            </span>
+
+          {% if institutions.has_next %}
+              <a class="btn btn--small btn--without-border active" href="?page={{ institutions.next_page_number }}">next</a>
+              <a class="btn btn--small btn--without-border active" href="?page={{ institutions.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+        </span>
+        </div>
+    </div> -->
+  <!--end of Pagination-->
 </div>
 
 
