@@ -45,7 +45,7 @@ class LandingPage(View):
         context = {
             "organization_count": organization_count,
             "sack_count": sack_count,
-            "institutions": dict_institutions,
+            "institutions": institutions,
         }
         return render(request, "charitydonationapp/index.html", context)
 
