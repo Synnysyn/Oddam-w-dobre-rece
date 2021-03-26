@@ -62,8 +62,33 @@ class AddDonation(LoginRequiredMixin, View):
     
     def post(self, request):
         quantity = request.POST["bags"]
-        categories = request.POST["category"]
-        raise Exception
+        categories = Category.objects.filter(name=request.POST["category"])
+        institution = Institution.objects.get(name=request.POST["organization"])
+        address = request.POST["address"]
+        city = request.POST["city"]
+        postcode = request.POST["postcode"]
+        phone = request.POST["phone"]
+        data = request.POST["data"]
+        time = request.POST["time"]
+        more_info = request.POST["more_info"]
+        user = request.user
+
+        donation = Donation.objects.create(
+            quantity=quantity,
+            institution=institution,
+            address=address,
+            phone_number=phone,
+            city=city,
+            zip_code=postcode,
+            pick_up_date=data,
+            pick_up_time=time,
+            pick_up_comment=more_info,
+            user=user,
+        )
+        for category in categories:
+            donation.categories.add(category)
+        donation.save()
+        return render(request, "charitydonationapp/form-confirmation.html")
 
 
 class Login(View):
