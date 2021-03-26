@@ -1,3 +1,4 @@
+from django.core import exceptions
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.models import User
@@ -62,7 +63,7 @@ class AddDonation(LoginRequiredMixin, View):
     
     def post(self, request):
         quantity = request.POST["bags"]
-        categories = Category.objects.filter(name=request.POST["category"])
+        categories = request.POST.getlist("category")
         institution = Institution.objects.get(name=request.POST["organization"])
         address = request.POST["address"]
         city = request.POST["city"]
@@ -86,7 +87,8 @@ class AddDonation(LoginRequiredMixin, View):
             user=user,
         )
         for category in categories:
-            donation.categories.add(category)
+            c = Category.objects.get(name=category)
+            donation.categories.add(c)
         donation.save()
         return render(request, "charitydonationapp/form-confirmation.html")
 
