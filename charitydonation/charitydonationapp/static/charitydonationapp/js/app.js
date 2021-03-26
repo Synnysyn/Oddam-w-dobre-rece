@@ -235,6 +235,20 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+
+      const checkboxes = document.querySelectorAll(".categoryCheckbox:checked");
+      let categories = [];
+      checkboxes.forEach((checkbox) => {
+          categories.push(checkbox.value);
+      });
+      let classes = categories.join(".")
+      let all_classes = `.${classes}`;
+      console.log(all_classes);
+
+      const institutions = document.querySelectorAll(all_classes);
+      institutions.forEach((el) => {
+        el.removeAttribute("hidden");
+      });
     }
 
     /**
