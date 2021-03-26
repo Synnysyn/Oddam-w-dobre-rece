@@ -244,8 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
       let classes = categories.join(".")
       let all_classes = `.${classes}`;
 
-      const institutions = document.querySelectorAll(all_classes);
-      institutions.forEach((el) => {
+      const institutions = document.querySelectorAll(all_classes).forEach((el) => {
         el.removeAttribute("hidden");
       });
 
@@ -276,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function() {
           el.innerText = input_value;
         });
       };
-      
+
       infoSummary("address", "summ-address");
       infoSummary("city", "summ-city");
       infoSummary("postcode", "summ-postcode");
