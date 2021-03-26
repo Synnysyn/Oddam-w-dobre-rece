@@ -243,12 +243,48 @@ document.addEventListener("DOMContentLoaded", function() {
       });
       let classes = categories.join(".")
       let all_classes = `.${classes}`;
-      console.log(all_classes);
 
       const institutions = document.querySelectorAll(all_classes);
       institutions.forEach((el) => {
         el.removeAttribute("hidden");
       });
+
+      //final summary
+      let bag_amount = 0
+      const bag_quantity = document.getElementsByName("bags").forEach((el) => {
+        bag_amount += el.value;
+      });
+      let all_categories = categories.join(", ");
+      const summ_categories = document.querySelectorAll("#summ-categories").forEach((el) => {
+        el.innerText = `worków: ${bag_amount} z tych kategorii: ${all_categories}`;
+      });
+      
+      let org_name = ""
+      const checked_organization = document.querySelectorAll(".organizationCheckbox:checked").forEach((el) => {
+        org_name = el.value;
+      });
+      const summ_organization = document.querySelectorAll("#summ-organization").forEach((el) => {
+        el.innerText = `wybrana organizacja: ${org_name}`;
+      });
+
+      function infoSummary(input_name, summ_id) {
+        let input_value = ""
+        const inputs = document.getElementsByName(input_name).forEach((el) => {
+          input_value = el.value;
+        });
+        const summary_id = document.querySelectorAll(`#${summ_id}`).forEach((el) => {
+          el.innerText = input_value;
+        });
+      };
+      
+      infoSummary("address", "summ-address");
+      infoSummary("city", "summ-city");
+      infoSummary("postcode", "summ-postcode");
+      infoSummary("phone", "summ-phone");
+      infoSummary("data", "summ-data");
+      infoSummary("time", "summ-time");
+      infoSummary("more_info", "summ-more_info");
+
     }
 
     /**

@@ -89,7 +89,7 @@
     <div class="form-group form-group--inline">
       <label>
         Liczba 60l worków:
-        <input type="number" name="bags" step="1" min="1" />
+        <input id="quantity" type="number" name="bags" step="1" min="1" />
       </label>
     </div>
 
@@ -109,7 +109,7 @@
     <div class="form-group form-group--checkbox">
       <div class="{% for category in institution.categories.all %}{{category.name}} {% endfor %}" id="institutionRadio" hidden>
         <label>
-          <input type="radio" name="organization" value="{{institution.name}}" />
+          <input class="organizationCheckbox" type="radio" name="organization" value="{{institution.name}}"/>
           <span class="checkbox radio"></span>
           <span class="description">
             <div class="title">{{institution.name}}</div>
@@ -190,15 +190,15 @@
         <ul>
           <li>
             <span class="icon icon-bag"></span>
-            <span class="summary--text"
-              >4 worki ubrań w dobrym stanie dla dzieci</span
+            <span class="summary--text" id="summ-categories"
+              >worków: _quantity_ z kategorii: _kategorie_</span
             >
           </li>
 
           <li>
             <span class="icon icon-hand"></span>
-            <span class="summary--text"
-              >Dla fundacji "Mam marzenie" w Warszawie</span
+            <span class="summary--text" id="summ-organization"
+              >Nazwa organizacji:_organization_</span
             >
           </li>
         </ul>
@@ -208,19 +208,19 @@
         <div class="form-section--column">
           <h4>Adres odbioru:</h4>
           <ul>
-            <li>Prosta 51</li>
-            <li>Warszawa</li>
-            <li>99-098</li>
-            <li>123 456 789</li>
+            <li id="summ-address">_address_</li>
+            <li id="summ-city">_city_</li>
+            <li id="summ-postcode">_postcode_</li>
+            <li id="summ-phone">_phone_</li>
           </ul>
         </div>
 
         <div class="form-section--column">
           <h4>Termin odbioru:</h4>
           <ul>
-            <li>13/12/2018</li>
-            <li>15:40</li>
-            <li>Brak uwag</li>
+            <li id="summ-data">_data_</li>
+            <li id="summ-time">_time_</li>
+            <li id="summ-more_info">Uwagi: _more_info_</li>
           </ul>
         </div>
       </div>
