@@ -174,7 +174,7 @@ class UserSettings(LoginRequiredMixin, View):
 
 # REST
 
-class InstitutionViewSet(viewsets.ModelViewSet):
+class InstitutionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint
     """
@@ -182,7 +182,7 @@ class InstitutionViewSet(viewsets.ModelViewSet):
     serializer_class = InstitutionSerializer
 
 
-class InstitutionFundViewSet(viewsets.ModelViewSet):
+class InstitutionFundViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (1)
     """
@@ -190,7 +190,7 @@ class InstitutionFundViewSet(viewsets.ModelViewSet):
     serializer_class = InstitutionSerializer
 
 
-class InstitutionOrgViewSet(viewsets.ModelViewSet):
+class InstitutionOrgViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (2)
     """
@@ -198,7 +198,7 @@ class InstitutionOrgViewSet(viewsets.ModelViewSet):
     serializer_class = InstitutionSerializer
 
 
-class InstitutionEarnViewSet(viewsets.ModelViewSet):
+class InstitutionEarnViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (3)
     """
