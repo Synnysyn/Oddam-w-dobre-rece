@@ -7,23 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from rest_framework import viewsets
+from .serializers import InstitutionSerializer
 
 # Create your views here.
 
-
-def paginating(page, queryset):
-    """
-    use it to prepare paginated page from queryset
-    """
-    paginator = Paginator(queryset, 1)
-    try:
-        ref_dict = paginator.page(page)
-    except PageNotAnInteger:
-        ref_dict = paginator.page(1)
-    except EmptyPage:
-        ref_dict = paginator.page(paginator.num_pages)
-
-    return ref_dict
 
 
 class LandingPage(View):
@@ -39,9 +27,7 @@ class LandingPage(View):
         
         for donation in donations:
             sack_count += donation.quantity
-        
-        page = request.GET.get("page", 1)
-        dict_institutions = paginating(page, institutions)
+
 
         context = {
             "organization_count": organization_count,
@@ -184,3 +170,37 @@ class UserSettings(LoginRequiredMixin, View):
                         return redirect("info")
                     return redirect("settings")
         return redirect("settings")
+
+
+# REST
+
+class InstitutionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint
+    """
+    queryset = Institution.objects.all().order_by('-name')
+    serializer_class = InstitutionSerializer
+
+
+class InstitutionFundViewSet(viewsets.ModelViewSet):
+    """
+    API filtered endpoint (1)
+    """
+    queryset = Institution.objects.filter(type=1).order_by('-name')
+    serializer_class = InstitutionSerializer
+
+
+class InstitutionOrgViewSet(viewsets.ModelViewSet):
+    """
+    API filtered endpoint (2)
+    """
+    queryset = Institution.objects.filter(type=2).order_by('-name')
+    serializer_class = InstitutionSerializer
+
+
+class InstitutionEarnViewSet(viewsets.ModelViewSet):
+    """
+    API filtered endpoint (3)
+    """
+    queryset = Institution.objects.filter(type=3).order_by('-name')
+    serializer_class = InstitutionSerializer
