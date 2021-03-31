@@ -21,7 +21,8 @@ from charitydonationapp import views as v # LandingPage, AddDonation, Login, Reg
 
 
 router = routers.DefaultRouter()
-router.register(r'institutions', v.InstitutionViewSet)
+router.register(r'institutions', v.InstitutionViewSet, basename="InstitutionViewSet")
+router.register(r'categories', v.CategoryViewSet, basename="CategoryViewSet")
 router.register(r'institutions-1', v.InstitutionFundViewSet)
 router.register(r'institutions-2', v.InstitutionOrgViewSet)
 router.register(r'institutions-3', v.InstitutionEarnViewSet)

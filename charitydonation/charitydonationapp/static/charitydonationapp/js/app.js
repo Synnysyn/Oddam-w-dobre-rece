@@ -13,7 +13,58 @@ document.addEventListener("DOMContentLoaded", function() {
 
     init() {
       this.events();
+      this.fetching();
     }
+
+    fetching () {
+      const link = "/institutions";
+      fetch(link, {
+          method : "GET",
+          // "Access-Control-Allow-Origin" : "*",
+      }).then( resp => {
+          return resp.json();
+      }).then( obj => {
+          console.log(obj);
+          const items = document.querySelectorAll(".help--slides-items");
+
+          items.forEach(itemsTab => {
+            obj.results.forEach(element => {
+              let institution = document.createElement("li");
+  
+              let institution_details = document.createElement("div");
+              institution_details.classList.add("col");
+              institution.appendChild(institution_details);
+  
+              let instTitle = document.createElement("div");
+              instTitle.classList.add("title");
+              instTitle.innerText = element.name;
+              institution_details.appendChild(instTitle);
+  
+              let instSubtitle = document.createElement("div");
+              instSubtitle.classList.add("subtitle");
+              instSubtitle.innerText = element.description;
+              institution_details.appendChild(instSubtitle);
+
+              let institution_categories = document.createElement("div");
+              institution_categories.classList.add("col");
+              institution.appendChild(institution_categories);
+  
+              let instText = document.createElement("div");
+              instText.classList.add("text");
+              let categories = "";
+              element.categories.forEach(category => {
+                categories += `${category.name} `;
+              });
+              instText.innerText = categories;
+              institution_categories.appendChild(instText);
+  
+              itemsTab.appendChild(institution);
+            });
+
+          });
+
+      });
+    };
 
     events() {
       /**
@@ -300,5 +351,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
-  }
+  };
+
 });

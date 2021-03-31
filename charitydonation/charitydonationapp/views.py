@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import viewsets
-from .serializers import InstitutionSerializer
+from .serializers import InstitutionSerializer, CategorySerializer
 
 # Create your views here.
 
@@ -174,13 +174,26 @@ class UserSettings(LoginRequiredMixin, View):
 
 # REST
 
+# class InstitutionViewSet(viewsets.ModelViewSet):
+#      serializer_class = InstitutionSerializer
+     
+#      def get_queryset(self):
+#         return Institution.objects.all().order_by('-name')
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+     serializer_class = CategorySerializer
+     
+     def get_queryset(self):
+        return Category.objects.all().order_by('-name')
+
+
 class InstitutionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint
     """
     queryset = Institution.objects.all().order_by('-name')
     serializer_class = InstitutionSerializer
-
 
 class InstitutionFundViewSet(viewsets.ReadOnlyModelViewSet):
     """
