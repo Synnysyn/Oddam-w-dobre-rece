@@ -17,14 +17,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     fetching () {
-      const link = "/institutions";
+      const link = "/institutions-1";
       fetch(link, {
           method : "GET",
-          // "Access-Control-Allow-Origin" : "*",
       }).then( resp => {
           return resp.json();
       }).then( obj => {
-          console.log(obj);
+          // console.log(obj);
           const items = document.querySelectorAll(".help--slides-items");
 
           items.forEach(itemsTab => {

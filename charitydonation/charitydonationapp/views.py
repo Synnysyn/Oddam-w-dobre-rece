@@ -185,21 +185,21 @@ class CategoryViewSet(viewsets.ModelViewSet):
      serializer_class = CategorySerializer
      
      def get_queryset(self):
-        return Category.objects.all().order_by('-name')
+        return Category.objects.all().order_by('name')
 
 
 class InstitutionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint
     """
-    queryset = Institution.objects.all().order_by('-name')
+    queryset = Institution.objects.all().order_by('name')
     serializer_class = InstitutionSerializer
 
 class InstitutionFundViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (1)
     """
-    queryset = Institution.objects.filter(type=1).order_by('-name')
+    queryset = Institution.objects.filter(type=1).order_by('name')
     serializer_class = InstitutionSerializer
 
 
