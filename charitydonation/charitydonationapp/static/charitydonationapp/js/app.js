@@ -24,10 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
       }).then( resp => {
           return resp.json();
       }).then( obj => {
-          // console.log(obj);
+          console.log(obj);
           const items = document.querySelectorAll(query_selector);
 
           items.forEach(itemsTab => {
+            itemsTab.innerHTML = '';
             obj.results.forEach(element => {
               let institution = document.createElement("li");
   
@@ -81,7 +82,15 @@ document.addEventListener("DOMContentLoaded", function() {
        */
       this.$el.addEventListener("click", e => {
         if (e.target.classList.contains("btn") && e.target.parentElement.parentElement.classList.contains("help--slides-pagination")) {
-          this.changePage(e);
+          if (e.target.parentElement.parentElement.classList.contains("in1")) {
+            this.changePage(e, "1");
+          }
+          if (e.target.parentElement.parentElement.classList.contains("in2")) {
+            this.changePage(e, "2");
+          }
+          if (e.target.parentElement.parentElement.classList.contains("in3")) {
+            this.changePage(e, "3");
+          }
         }
       });
     }
@@ -110,11 +119,13 @@ document.addEventListener("DOMContentLoaded", function() {
     /**
      * TODO: callback to page change event
      */
-    changePage(e) {
+    changePage(e, type) {
       e.preventDefault();
       const page = e.target.dataset.page;
+      const api_url = `/institutions-${type}/?page=${page}`;
+      const type_class = `.help--slides-items.in${type}`;
 
-      console.log(page);
+      this.fetching(api_url, type_class);
     }
   }
   const helpSection = document.querySelector(".help");
