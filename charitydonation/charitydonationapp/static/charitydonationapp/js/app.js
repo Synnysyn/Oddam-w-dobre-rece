@@ -13,18 +13,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     init() {
       this.events();
-      this.fetching();
+      this.fetching("/institutions-1", ".help--slides-items.in1");
+      this.fetching("/institutions-2", ".help--slides-items.in2");
+      this.fetching("/institutions-3", ".help--slides-items.in3");
     }
 
-    fetching () {
-      const link = "/institutions-1";
+    fetching (link, query_selector) {
       fetch(link, {
           method : "GET",
       }).then( resp => {
           return resp.json();
       }).then( obj => {
           // console.log(obj);
-          const items = document.querySelectorAll(".help--slides-items");
+          const items = document.querySelectorAll(query_selector);
 
           items.forEach(itemsTab => {
             obj.results.forEach(element => {
