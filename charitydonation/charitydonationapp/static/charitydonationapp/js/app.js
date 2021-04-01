@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     init() {
       this.events();
-      this.fetching("/institutions-1", ".help--slides-items.in1");
-      this.fetching("/institutions-2", ".help--slides-items.in2");
-      this.fetching("/institutions-3", ".help--slides-items.in3");
+      this.fetching("/institutions-1", "1");
+      this.fetching("/institutions-2", "2");
+      this.fetching("/institutions-3", "3");
     }
 
     fetching (link, query_selector) {
@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", function() {
       }).then( resp => {
           return resp.json();
       }).then( obj => {
-          console.log(obj);
-          const items = document.querySelectorAll(query_selector);
-
+          const type_class = `.help--slides-items.in${query_selector}`;
+          const items = document.querySelectorAll(type_class);
+          
           items.forEach(itemsTab => {
             itemsTab.innerHTML = '';
             obj.results.forEach(element => {
@@ -61,6 +61,30 @@ document.addEventListener("DOMContentLoaded", function() {
   
               itemsTab.appendChild(institution);
             });
+
+          });
+
+          let page_number = obj.count / 5;
+          let button_number = 0;
+
+          const button_class = `.help--slides-pagination.in${query_selector}`;
+          const buttons = document.querySelectorAll(button_class);
+
+          buttons.forEach(buttonsTab => {
+            buttonsTab.innerHTML = '';
+            while (page_number > 0) {
+              button_number += 1;
+              let pag_button = document.createElement("li");
+              let inner_pag_button = document.createElement("a");
+              inner_pag_button.classList.add("btn");
+              inner_pag_button.classList.add("btn--small");
+              inner_pag_button.classList.add("btn--without-border");
+              inner_pag_button.setAttribute("data-page", `${button_number}`);
+              inner_pag_button.innerText = `${button_number}`;
+              pag_button.appendChild(inner_pag_button);
+              buttonsTab.appendChild(pag_button);
+              page_number -= 1;
+            };
 
           });
 
@@ -123,9 +147,8 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       const page = e.target.dataset.page;
       const api_url = `/institutions-${type}/?page=${page}`;
-      const type_class = `.help--slides-items.in${type}`;
 
-      this.fetching(api_url, type_class);
+      this.fetching(api_url, type);
     }
   }
   const helpSection = document.querySelector(".help");
