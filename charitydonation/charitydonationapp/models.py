@@ -33,7 +33,6 @@ class Institution(models.Model):
     type = models.IntegerField(choices=TYPES, default=1)
     categories = models.ManyToManyField(Category, default=None)
 
-
     def __str__(self):
         return f"{self.name} ({TYPES[self.type - 1][1]})"
 
@@ -66,7 +65,6 @@ class Donation(models.Model):
     pick_up_comment = models.TextField()
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     is_taken = models.BooleanField(default=False)
-
 
     def __str__(self):
         return f"{self.quantity} by {self.user}"

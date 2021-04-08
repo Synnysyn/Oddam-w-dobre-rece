@@ -10,9 +10,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import viewsets
 from .serializers import InstitutionSerializer, CategorySerializer
 
-# Create your views here.
-
-
 
 class LandingPage(View):
     def get(self, request):
@@ -24,10 +21,9 @@ class LandingPage(View):
 
         for institution in institutions:
             organization_count += 1
-        
+
         for donation in donations:
             sack_count += donation.quantity
-
 
         context = {
             "organization_count": organization_count,
@@ -46,7 +42,7 @@ class AddDonation(LoginRequiredMixin, View):
             "institutions": institutions,
         }
         return render(request, "charitydonationapp/form.html", context)
-    
+
     def post(self, request):
         quantity = request.POST["bags"]
         categories = request.POST.getlist("category")
@@ -82,7 +78,7 @@ class AddDonation(LoginRequiredMixin, View):
 class Login(View):
     def get(self, request):
         return render(request, "charitydonationapp/login.html")
-    
+
     def post(self, request):
         username = request.POST["email"]
         password = request.POST["password"]
@@ -97,7 +93,7 @@ class Login(View):
 class Register(View):
     def get(self, request):
         return render(request, "charitydonationapp/register.html")
-    
+
     def post(self, request):
         username = request.POST["email"]
         password = request.POST["password"]
@@ -108,19 +104,25 @@ class Register(View):
             User.objects.get(username=username)
         except ObjectDoesNotExist:
             if password == rep_password:
-                user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password)
+                user = User.objects.create_user(
+                    username=username,
+                    first_name=first_name,
+                    last_name=last_name,
+                    password=password,
+                )
                 login(request, user=user)
                 return redirect("index")
         return redirect("register")
 
+
 class Info(LoginRequiredMixin, View):
     def get(self, request):
         donations = Donation.objects.filter(user=request.user).order_by("is_taken")
-        context = {"donations":donations}
+        context = {"donations": donations}
         return render(request, "charitydonationapp/info.html", context)
-    
+
     def post(self, request):
-        donation = Donation.objects.get(id = request.POST["donation_id"])
+        donation = Donation.objects.get(id=request.POST["donation_id"])
         if "donation_taken" in request.POST:
             donation.is_taken = True
         elif "donation_not_taken" in request.POST:
@@ -128,10 +130,11 @@ class Info(LoginRequiredMixin, View):
         donation.save()
         return redirect("info")
 
+
 class UserSettings(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "charitydonationapp/settings.html")
-    
+
     def post(self, request):
         password = request.POST["password"]
         user = authenticate(request, username=request.user.username, password=password)
@@ -146,7 +149,7 @@ class UserSettings(LoginRequiredMixin, View):
                     user.save()
                     login(request, user=user)
                     return redirect("info")
-            
+
             elif "info_change" in request.POST:
                 username = request.POST["username"]
                 first_name = request.POST["first_name"]
@@ -172,34 +175,28 @@ class UserSettings(LoginRequiredMixin, View):
         return redirect("settings")
 
 
-# REST
-
-# class InstitutionViewSet(viewsets.ModelViewSet):
-#      serializer_class = InstitutionSerializer
-     
-#      def get_queryset(self):
-#         return Institution.objects.all().order_by('-name')
-
-
 class CategoryViewSet(viewsets.ModelViewSet):
-     serializer_class = CategorySerializer
-     
-     def get_queryset(self):
-        return Category.objects.all().order_by('name')
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return Category.objects.all().order_by("name")
 
 
 class InstitutionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint
     """
-    queryset = Institution.objects.all().order_by('name')
+
+    queryset = Institution.objects.all().order_by("name")
     serializer_class = InstitutionSerializer
+
 
 class InstitutionFundViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (1)
     """
-    queryset = Institution.objects.filter(type=1).order_by('name')
+
+    queryset = Institution.objects.filter(type=1).order_by("name")
     serializer_class = InstitutionSerializer
 
 
@@ -207,7 +204,8 @@ class InstitutionOrgViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (2)
     """
-    queryset = Institution.objects.filter(type=2).order_by('-name')
+
+    queryset = Institution.objects.filter(type=2).order_by("-name")
     serializer_class = InstitutionSerializer
 
 
@@ -215,5 +213,6 @@ class InstitutionEarnViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API filtered endpoint (3)
     """
-    queryset = Institution.objects.filter(type=3).order_by('-name')
+
+    queryset = Institution.objects.filter(type=3).order_by("-name")
     serializer_class = InstitutionSerializer
